@@ -1,0 +1,12 @@
+[
+  {
+    "title": "API Testing",
+    "body": "Sample body",
+    "userId": 1
+  },
+  {
+    "title": "Automation Testing",
+    "body": "Another body",
+    "userId": 2
+  }
+]
