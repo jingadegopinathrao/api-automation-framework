@@ -1,0 +1,17 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Thu Mar 26 12:36:45 UTC 2026","Thu Mar 26 12:36:45 UTC 2026","76","tests","test_posts_api","","","","test_get_posts","
+    Test to fetch all posts
+    "
+"passed","Thu Mar 26 12:36:45 UTC 2026","Thu Mar 26 12:36:45 UTC 2026","89","tests","test_create_post","","","","test_create_post[payload1]","
+    Test to create posts using multiple datasets (Data-Driven Testing)
+    "
+"passed","Thu Mar 26 12:36:45 UTC 2026","Thu Mar 26 12:36:46 UTC 2026","90","tests","test_posts_api","","","","test_create_post[payload1]","
+    Test to create posts
+    "
+"passed","Thu Mar 26 12:36:45 UTC 2026","Thu Mar 26 12:36:45 UTC 2026","76","tests","test_get_users","","","","Verify GET Users API with valid response","This test verifies users API response"
+"passed","Thu Mar 26 12:36:45 UTC 2026","Thu Mar 26 12:36:45 UTC 2026","95","tests","test_posts_api","","","","test_create_post[payload0]","
+    Test to create posts
+    "
+"passed","Thu Mar 26 12:36:45 UTC 2026","Thu Mar 26 12:36:45 UTC 2026","216","tests","test_create_post","","","","test_create_post[payload0]","
+    Test to create posts using multiple datasets (Data-Driven Testing)
+    "
