@@ -20,7 +20,7 @@
 
 ## 📈 Allure Report (Live)
 
-👉 https://github.com/jingadegopinathrao/api-automation-framework
+👉 https://jingadegopinathrao.github.io/api-automation-framework/
 
 ## 🧪 Run Tests Locally
 
