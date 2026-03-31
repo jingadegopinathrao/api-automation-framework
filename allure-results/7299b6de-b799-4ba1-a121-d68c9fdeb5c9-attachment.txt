@@ -1,0 +1,9 @@
+[32mINFO    [0m utils.api_client:api_client.py:15 Attempt 1 - POST Request URL: https://jsonplaceholder.typicode.com/posts
+[32mINFO    [0m utils.api_client:api_client.py:18 Request Payload: {'title': 'Automation Testing', 'body': 'Another body', 'userId': 2}
+[32mINFO    [0m utils.api_client:api_client.py:28 Response Status: 201
+[32mINFO    [0m utils.api_client:api_client.py:29 Response Body: {
+  "title": "Automation Testing",
+  "body": "Another body",
+  "userId": 2,
+  "id": 101
+}

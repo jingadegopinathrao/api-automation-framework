@@ -1,21 +1,19 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
 "
-    Test to fetch users
-    ","208","test_get_users","tests","2026-03-25","passed","2026-03-25","","test_get_users","",""
-"
-    Test to fetch all posts
-    ","204","test_get_posts","tests","2026-03-25","passed","2026-03-25","","test_posts_api","",""
+    Test to create posts
+    ","1515","test_create_post[payload1]","tests","2026-03-26","passed","2026-03-26","","test_posts_api","",""
+"This test verifies users API response","1283","Verify GET Users API with valid response","tests","2026-03-26","passed","2026-03-26","","test_get_users","",""
 "
     Test to create posts using multiple datasets (Data-Driven Testing)
-    ","455","test_create_post[payload0]","tests","2026-03-25","passed","2026-03-25","","test_create_post","",""
+    ","1085","test_create_post[payload0]","tests","2026-03-26","passed","2026-03-26","","test_create_post","",""
+"
+    Test to create posts using multiple datasets (Data-Driven Testing)
+    ","937","test_create_post[payload1]","tests","2026-03-26","passed","2026-03-26","","test_create_post","",""
 "","451","test_create_post","tests","2026-03-12","passed","2026-03-12","","test_create_post","",""
+"
+    Test to create posts
+    ","1124","test_create_post[payload0]","tests","2026-03-26","passed","2026-03-26","","test_posts_api","",""
 "","181","test_get_posts","tests","2026-03-12","passed","2026-03-12","","test_get_posts","",""
 "
-    Test to create posts
-    ","432","test_create_post[payload0]","tests","2026-03-25","passed","2026-03-25","","test_posts_api","",""
-"
-    Test to create posts using multiple datasets (Data-Driven Testing)
-    ","885","test_create_post[payload1]","tests","2026-03-25","passed","2026-03-25","","test_create_post","",""
-"
-    Test to create posts
-    ","849","test_create_post[payload1]","tests","2026-03-25","passed","2026-03-25","","test_posts_api","",""
+    Test to fetch all posts
+    ","299","test_get_posts","tests","2026-03-26","passed","2026-03-26","","test_posts_api","",""

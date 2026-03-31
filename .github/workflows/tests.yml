@@ -2,11 +2,14 @@ name: API Automation Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # ✅ REQUIRED for GitHub Pages
 
     steps:
       - name: Checkout code
@@ -15,19 +18,31 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run Pytest with Allure
-        run: pytest --alluredir=allure-results || true
+      # ✅ Run tests + generate Allure results + JUnit report
+      - name: Run Pytest
+        run: |
+          mkdir -p reports
+          pytest --alluredir=allure-results --junitxml=reports/results.xml || true
+
+      # ✅ Publish test results in GitHub UI
+      - name: Publish Test Results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Pytest Results
+          path: reports/results.xml
+          reporter: java-junit
 
       # ✅ Install Java (required for Allure)
       - name: Install Java
         run: sudo apt-get update && sudo apt-get install -y default-jre
 
-      # ✅ Install Allure (stable way)
+      # ✅ Install Allure
       - name: Install Allure
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
@@ -35,12 +50,19 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-      # ✅ Generate report
+      # ✅ Generate Allure HTML report
       - name: Generate Allure Report
         run: allure generate allure-results --clean -o allure-report
 
-      # ✅ Upload artifact (v4 correct)
-      - name: Deploy Allure Report to GitHub Pages
+      # ✅ Upload report as artifact (downloadable)
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      # ✅ Deploy report to GitHub Pages (LIVE URL)
+      - name: Deploy Allure Report
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
