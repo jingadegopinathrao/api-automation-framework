@@ -1,64 +1,88 @@
-import time
 import requests
-from config.config import BASE_URL, TIMEOUT
-from utils.logger import get_logger
+import allure
+from utils.config import JSON_BASE_URL, REQRES_BASE_URL, TIMEOUT
+from utils.logger import logger
 
-logger = get_logger(__name__)
 
-
-def send_request(method, endpoint, payload=None, headers=None, timeout=TIMEOUT):
-    url = f"{BASE_URL}{endpoint}"
-    retries = 3
-
-    for attempt in range(1, retries + 1):
-        try:
-            logger.info(f"Attempt {attempt} - {method} Request URL: {url}")
-
-            if payload:
-                logger.info(f"Request Payload: {payload}")
-
-            response = requests.request(
-                method=method,
-                url=url,
-                json=payload,
-                headers=headers,
-                timeout=timeout
-            )
-
-            logger.info(f"Response Status: {response.status_code}")
-            logger.info(f"Response Body: {response.text}")
-
-            # Retry only for server errors
-            if response.status_code >= 500:
-                logger.warning("Server error detected, retrying...")
-                raise Exception("Server error")
-
-            return response
-
-        except requests.exceptions.Timeout:
-            logger.error(f"{method} request timed out")
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"{method} request failed: {e}")
-
-        if attempt < retries:
-            logger.info(f"Retrying {method} request...")
-            time.sleep(2)
+class APIClient:
+    def __init__(self, api_type="json"):
+        if api_type == "json":
+            self.base_url = JSON_BASE_URL
+        elif api_type == "reqres":
+            self.base_url = REQRES_BASE_URL
         else:
-            logger.error(f"Max retries reached for {method}")
-            raise
+            raise ValueError("Invalid API type")
 
-def get(endpoint, headers=None):
-    return send_request("GET", endpoint, headers=headers)
+        self.headers = {
+            "Accept": "application/json",
+            "User-Agent": "pytest-framework"
+        }
 
+    def attach(self, name, data):
+        allure.attach(
+            str(data),
+            name=name,
+            attachment_type=allure.attachment_type.JSON
+        )
 
-def post(endpoint, payload, headers=None):
-    return send_request("POST", endpoint, payload=payload, headers=headers)
+    def get(self, endpoint):
+        url = f"{self.base_url}{endpoint}"
 
+        logger.info(f"GET → {url}")
+        self.attach("Request URL", url)
 
-def put(endpoint, payload, headers=None):
-    return send_request("PUT", endpoint, payload=payload, headers=headers)
+        response = requests.get(url, headers=self.headers, timeout=TIMEOUT)
 
+        logger.info(f"Status → {response.status_code}")
+        logger.debug(response.text)
 
-def delete(endpoint, headers=None):
-    return send_request("DELETE", endpoint, headers=headers)
+        self.attach("Response Status", response.status_code)
+        self.attach("Response Body", response.text)
+
+        return response
+
+    def post(self, endpoint, data=None):
+        url = f"{self.base_url}{endpoint}"
+
+        logger.info(f"POST → {url}")
+        logger.debug(f"Payload → {data}")
+
+        self.attach("Request URL", url)
+        self.attach("Request Payload", data)
+
+        response = requests.post(url, json=data, headers=self.headers, timeout=TIMEOUT)
+
+        logger.info(f"Status → {response.status_code}")
+        logger.debug(response.text)
+
+        self.attach("Response Status", response.status_code)
+        self.attach("Response Body", response.text)
+
+        return response
+
+    def put(self, endpoint, data=None):
+        url = f"{self.base_url}{endpoint}"
+
+        logger.info(f"PUT → {url}")
+        self.attach("Request URL", url)
+        self.attach("Request Payload", data)
+
+        response = requests.put(url, json=data, headers=self.headers, timeout=TIMEOUT)
+
+        self.attach("Response Status", response.status_code)
+        self.attach("Response Body", response.text)
+
+        return response
+
+    def delete(self, endpoint):
+        url = f"{self.base_url}{endpoint}"
+
+        logger.info(f"DELETE → {url}")
+        self.attach("Request URL", url)
+
+        response = requests.delete(url, headers=self.headers, timeout=TIMEOUT)
+
+        self.attach("Response Status", response.status_code)
+        self.attach("Response Body", response.text)
+
+        return response

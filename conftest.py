@@ -1,16 +1,12 @@
 import pytest
-import requests
-from config.config import BASE_URL
+from utils.api_client import APIClient
 
-@pytest.fixture
-def auth_token():
 
-    response = requests.post(
-        f"{BASE_URL}/login",
-        json={
-            "username": "testuser",
-            "password": "test123"
-        }
-    )
+@pytest.fixture(scope="session")
+def json_client():
+    return APIClient(api_type="json")
 
-    return response.json().get("token")
+
+@pytest.fixture(scope="session")
+def reqres_client():
+    return APIClient(api_type="reqres")

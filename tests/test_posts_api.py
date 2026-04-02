@@ -1,18 +1,12 @@
 import pytest
-from utils.api_client import get, post
 from utils.data_reader import read_json
 
-# Load test data
 test_data = read_json("data/post_test_data.json")
 
 
 @pytest.mark.smoke
-def test_get_posts():
-    """
-    Test to fetch all posts
-    """
-
-    response = get("/posts")
+def test_get_posts(json_client):   # ✅ use fixture
+    response = json_client.get("/posts")
 
     assert response.status_code == 200
 
@@ -31,12 +25,8 @@ def test_get_posts():
 
 @pytest.mark.regression
 @pytest.mark.parametrize("payload", test_data)
-def test_create_post(payload):
-    """
-    Test to create posts
-    """
-
-    response = post("/posts", payload)
+def test_create_post(json_client, payload):   # ✅ use fixture
+    response = json_client.post("/posts", data=payload)
 
     assert response.status_code == 201
 
